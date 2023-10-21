@@ -3,12 +3,10 @@
 
 CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent)
 {
-    setFixedWidth(544);
-    setFixedHeight(64);
+    setGeometry(0,0,544,64);
 
     titleLabel = new QLabel("Title", this);
-    titleLabel->setFixedWidth(440);
-    titleLabel->setFixedHeight(24);
+    titleLabel->setGeometry(0,0,440,24);
     titleLabel->setFont(QFont("Inter", 20, 700));
     titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 

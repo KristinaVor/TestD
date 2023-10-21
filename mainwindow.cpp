@@ -125,18 +125,17 @@ void MainWindow::openDetailsDialog()
 {
     // Создайте новое диалоговое окно
     QDialog *detailsDialog = new QDialog(this);
-    detailsDialog->setWindowFlags(Qt::Window |Qt::WindowCloseButtonHint);
+    detailsDialog->setWindowFlags(Qt::FramelessWindowHint);
 
     CustomTitleBar *titleBar = new CustomTitleBar(detailsDialog);
     titleBar->setTitle("Детали по устройству");
-
     detailsDialog->setFixedSize(544, 278);
     detailsDialog->setGeometry(512, 304, 544, 278);
     detailsDialog->setStyleSheet("border-radius: 4px; background: #FFFFFF;");
 
     QVBoxLayout *dialogLayout = new QVBoxLayout;
     QTextBrowser *descriptionBrowser = new QTextBrowser(detailsDialog);
-    descriptionBrowser->setGeometry(24, 24, 496, 72);
+    descriptionBrowser->setGeometry(0, 63, 496, 72);
     QString descriptionStyle = "font-family: 'IBM Plex Sans'; font-size: 15px; font-weight: 400; line-height: 24px;"
                                " letter-spacing: 0px; text-align: left;";
     descriptionBrowser->setStyleSheet(descriptionStyle);
