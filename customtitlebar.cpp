@@ -1,5 +1,5 @@
 #include "customtitlebar.h"
-#include <QHBoxLayout>
+
 
 CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent)
 {
@@ -7,12 +7,22 @@ CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent)
 
     titleLabel = new QLabel("Title", this);
     titleLabel->setGeometry(0,0,440,24);
-    titleLabel->setFont(QFont("Inter", 20, 700));
+    QFont titleFont("Inter", 20, 700);
+    titleFont.setLetterSpacing(QFont::AbsoluteSpacing, -0.3);
+    titleFont.setPixelSize(24);
+    titleFont.setStyleStrategy(QFont::PreferAntialias);
+
+    titleLabel->setFont(titleFont);
     titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
-    closeButton = new QPushButton("X", this);
-    closeButton->setFixedSize(56, 56);
+    QPixmap pixmap(":/Images/X.png");
+    QIcon buttonIcon(pixmap);
+
+    closeButton = new QPushButton(this);
+    closeButton->setGeometry(416, 0, 56, 56);
     closeButton->setStyleSheet("padding: 16px; border-radius: 4px;");
+    closeButton->setIcon(buttonIcon);
+    closeButton->setIconSize(QSize(24, 24));
     connect(closeButton, &QPushButton::clicked, parent, &QWidget::close);
 
     QHBoxLayout *layout = new QHBoxLayout(this);

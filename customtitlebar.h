@@ -4,6 +4,9 @@
 #include <QFrame>
 #include <QLabel>
 #include <QPushButton>
+#include <QHBoxLayout>
+#include <QIcon>
+#include <QPixmap>
 
 class CustomTitleBar : public QFrame
 {

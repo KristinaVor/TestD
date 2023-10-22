@@ -169,7 +169,19 @@
       <height>201</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout_2"/>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/X.png</normaloff>images/X.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -1,17 +1,5 @@
 #include "mainwindow.h"
 #include "customtitlebar.h"
-#include <QFrame>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextBrowser>
-#include <QDateEdit>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QFormLayout>
-#include <QGridLayout>
-#include <QDialog>
-#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     QFrame *blueBar = new QFrame;
     blueBar->setGeometry(0, 0, 82,960);
     blueBar->setStyleSheet("background-color: #242E40; border-bottom-right-radius: 10px; ");
+
+    QLabel *iconLabel = new QLabel(blueBar);
+    QPixmap icon(":/Images/1.png");icon = icon.scaled(QSize(70, 70), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    iconLabel->setPixmap(icon);
+    iconLabel->setGeometry(20, 20, 70, 70);
 
     QFrame *messageWidget = new QFrame;
     messageWidget->setStyleSheet("background-color: white; border-radius: 10px;");
@@ -68,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     textBrowser_description->setFixedSize(551, 40);
     textBrowser_description->setStyleSheet("font-family: Inter; font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0em; text-align: left;");
     textBrowser_description->setPlainText("Какое то описание прошивки может быть длинным в несколько строчек текста расположенном тут");
+    textBrowser_description->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     formLayout->addRow(label_des,textBrowser_description);
 
     // Горизонтальная компоновка для кэша
@@ -76,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     QLabel *label_cash = new QLabel("Кэш");
     label_cash->setStyleSheet("width: 128px; height: 20px; font-family: Inter; font-size: 14px; font-weight: 500; line-height: 20px; letter-spacing: 0em; text-align: left;");
     formLayout->addRow(label_cash,lineEdit_cash);
+    QSpacerItem *spacer3 = new QSpacerItem(20, 24, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     QPushButton *pushButton = new QPushButton("Детали");
     pushButton->setStyleSheet("background-color: #4480F3; border-radius: 8px; color: white; font-size: 15px; font-weight: 500; line-height: 24px;"
@@ -83,11 +79,18 @@ MainWindow::MainWindow(QWidget *parent)
     pushButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     pushButton->setFixedSize(QSize(85, 44));
     connect(pushButton, &QPushButton::clicked, this, &MainWindow::openDetailsDialog);
+    formLayout->addItem(spacer3);
     formLayout->addRow(pushButton);
 
+    QSpacerItem *spacer = new QSpacerItem(20, 16, QSizePolicy::Minimum, QSizePolicy::Fixed);
+    QSpacerItem *spacer2 = new QSpacerItem(20, 32, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
     messageLayout->addWidget(label_update);
+    messageLayout->addSpacerItem(spacer);
     messageLayout->addWidget(label_info);
+    messageLayout->addSpacerItem(spacer2);
     messageLayout->addLayout(formLayout);
+
 
     QGridLayout *gridLayout = new QGridLayout;
     QWidget *topSpacer = new QWidget();
@@ -123,23 +126,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::openDetailsDialog()
 {
-    // Создайте новое диалоговое окно
-    QDialog *detailsDialog = new QDialog(this);
-    detailsDialog->setWindowFlags(Qt::FramelessWindowHint);
+    QFrame *backgroundOverlay = new QFrame(this);
+    backgroundOverlay->setGeometry(0, 0, this->width(), this->height());
+    backgroundOverlay->setStyleSheet("background-color: rgba(0, 0, 0, 128);");
 
-    CustomTitleBar *titleBar = new CustomTitleBar(detailsDialog);
-    titleBar->setTitle("Детали по устройству");
+    QDialog *detailsDialog = new QDialog(this);
+    detailsDialog->setWindowModality(Qt::WindowModal);
+
+    detailsDialog->setWindowFlags(Qt::FramelessWindowHint);
     detailsDialog->setFixedSize(544, 278);
     detailsDialog->setGeometry(512, 304, 544, 278);
     detailsDialog->setStyleSheet("border-radius: 4px; background: #FFFFFF;");
 
+    CustomTitleBar *titleBar = new CustomTitleBar(detailsDialog);
+    titleBar->setTitle("Детали по устройству");
+
     QVBoxLayout *dialogLayout = new QVBoxLayout;
     QTextBrowser *descriptionBrowser = new QTextBrowser(detailsDialog);
-    descriptionBrowser->setGeometry(0, 63, 496, 72);
+    descriptionBrowser->setGeometry(16, 71, 496, 72);
     QString descriptionStyle = "font-family: 'IBM Plex Sans'; font-size: 15px; font-weight: 400; line-height: 24px;"
                                " letter-spacing: 0px; text-align: left;";
     descriptionBrowser->setStyleSheet(descriptionStyle);
-    descriptionBrowser->setPlainText("Какое-то описание прошивки может быть длинным в несколько строчек текста расположенным тут");
+    descriptionBrowser->setPlainText("Какое-то описание прошивки может быть длинным в несколько строчек текста \n"
+                                     "расположенным тут");
     detailsDialog->setLayout(dialogLayout);
 
     QFrame *frame2 = new QFrame(detailsDialog);
@@ -153,7 +162,12 @@ void MainWindow::openDetailsDialog()
                                "padding: 16px 24px 16px 24px; border-radius: 4px;");
 
     closeButton->move(544 - closeButton->width() - 24, 104 - closeButton->height() - 16);
-     connect(closeButton, &QPushButton::clicked, detailsDialog, &QDialog::close);
+    connect(closeButton, &QPushButton::clicked, detailsDialog, &QDialog::close);
 
+    connect(detailsDialog, &QDialog::finished, backgroundOverlay, &QFrame::hide);
+    connect(detailsDialog, &QDialog::finished, detailsDialog, &QDialog::deleteLater);
+
+    backgroundOverlay->show();
     detailsDialog->exec();
 }
+
