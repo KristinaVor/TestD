@@ -14,6 +14,7 @@ class CustomTitleBar : public QFrame
 
 public:
     CustomTitleBar(QWidget *parent = nullptr);
+    ~CustomTitleBar();
 
     void setTitle(const QString &title);
 

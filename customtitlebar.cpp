@@ -1,7 +1,7 @@
 #include "customtitlebar.h"
 
-
-CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent)
+CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent),
+  titleLabel(nullptr), closeButton(nullptr)
 {
     setGeometry(0,0,544,64);
 
@@ -31,6 +31,22 @@ CustomTitleBar::CustomTitleBar(QWidget *parent) : QFrame(parent)
     layout->addWidget(closeButton);
     layout->setContentsMargins(16, 0, 16, 0);
 }
+
+CustomTitleBar::~CustomTitleBar()
+{
+    if (titleLabel)
+    {
+        delete titleLabel;
+        titleLabel = nullptr;
+    }
+
+    if (closeButton)
+    {
+        delete closeButton;
+        closeButton = nullptr;
+    }
+}
+
 
 void CustomTitleBar::setTitle(const QString &title)
 {
