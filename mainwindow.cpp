@@ -60,7 +60,8 @@ MainWindow::MainWindow(QWidget *parent)
     QTextBrowser *textBrowser_description = new QTextBrowser;
     textBrowser_description->setFixedSize(551, 40);
     textBrowser_description->setStyleSheet("font-family: Inter; font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0em; text-align: left;");
-    textBrowser_description->setPlainText("Какое то описание прошивки может быть длинным в несколько строчек текста расположенном тут");
+    textBrowser_description->setPlainText("Какое-то описание прошивки может быть длинным в несколько строчек текста \n"
+                                          "расположенным тут");
     textBrowser_description->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     formLayout->addRow(label_des,textBrowser_description);
